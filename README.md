@@ -1,2 +1,1 @@
-# AWSLambdaPlatformEngineerDemo
-AWSLambdaPlatformEngineerDemo
+# aws-lambda-helloworld
