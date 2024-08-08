@@ -19,11 +19,7 @@ pipeline {
         }
         stage('Test') {
             steps {
-                if isUnix() {
                     sh 'mvn test'
-                } else {
-                    bat 'mvn test'
-                }
             }
         }
         stage('Deploy') {
