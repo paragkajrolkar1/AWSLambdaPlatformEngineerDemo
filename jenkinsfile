@@ -7,7 +7,7 @@ timestamps {
         }
         stage('Build') {
                 // Here you can add Maven build steps
-                withMaven(maven: 3.9.8) {
+                withMaven(maven: 'Maven 3.9.8') {
                     if(isUnix()) {
                         sh "mvn clean package"
                     } else {
