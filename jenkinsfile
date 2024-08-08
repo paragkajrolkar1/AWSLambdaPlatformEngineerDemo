@@ -1,40 +1,27 @@
 //create jenkinsfile for following stages: Checkout, maven build with both unix and linux steps, test & deploys
 
-timestamps
+timestamps {
+    
+    node () {
+        stage('Checkout') {
+                // Here you can add code checkout steps
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/paragkajrolkar1/AWSLambdaPlatformEngineerDemo.git']]])
+        }
 
-node()
-{
-    stage('Checkout')
-    {
-        checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/paragkajrolkar1/AWSLambdaPlatformEngineerDemo.git']]])
+        stage('Maven Build') {
+            // Here you can add maven build steps
+            sh 'mvn clean package'
+        }
+
+        stage('Test') {
+            // Here you can add test steps
+            sh 'mvn test'
+        }
+
+        stage('Deploy') {
+            // Here you can add deploy steps
+            sh 'mvn deploy'
+        }
+
     }
-    stage('Maven Build')
-    {
-        withMaven(maven: 'Maven 3.9.8') {
-                    if(isUnix()) {
-                        sh "mvn clean package"
-                    } else {
-                        bat "mvn clean package"
-                    }
-                }
-    }
-    stage('Test')
-    {
-        withMaven(maven: 'Maven 3.9.8') {
-                    if(isUnix()) {
-                        sh "mvn test"
-                    } else {
-                        bat "mvn test"
-                    }
-                }
-    }
-    stage('Deploy')
-    {
-        withMaven(maven: 'Maven 3.9.8') {
-                    if(isUnix()) {
-                        sh "mvn deploy"
-                    } else {
-                        bat "mvn deploy"
-                    }
-                }
-    }
+    
