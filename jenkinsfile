@@ -7,21 +7,27 @@ timestamps {
                 // Here you can add code checkout steps
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '', url: 'https://github.com/paragkajrolkar1/AWSLambdaPlatformEngineerDemo.git']]])
         }
-
-        stage('Maven Build') {
-            // Here you can add maven build steps
-            sh 'mvn clean package'
+        stage('Build') {
+                // Here you can add Maven build steps
+                withMaven(maven: 'Maven 3.9.8') {
+                    if(isUnix()) {
+                        sh "mvn clean package"
+                    } else {
+                        bat "mvn clean package"
+                    }
+                }
         }
-
-        stage('Test') {
-            // Here you can add test steps
-            sh 'mvn test'
+        /*stage('Test') {
+            steps {
+                echo 'Testing..'
+                // Here you can add test steps
+            }
         }
-
         stage('Deploy') {
-            // Here you can add deploy steps
-            sh 'mvn deploy'
-        }
-
+            steps {
+                echo 'Deploying....'
+                // Here you can add deploy steps
+            }
+        }*/
     }
-    
+}
